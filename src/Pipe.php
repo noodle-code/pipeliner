@@ -7,8 +7,8 @@ class Pipe {
 
   public function __construct($load = null) {
     
-    if($load instanceof \Generator) {
-      
+    if(is_callable($load)) {
+
       $this->load = $load;
     }
   }
@@ -17,11 +17,11 @@ class Pipe {
     
     $callable = function($load) use ($pipe) {
       
-      if($this->load instanceof \Generator) {
+      if(is_callable($this->load)) {
         
         foreach(call_user_func($this->load, $load) as $item) {
           
-          yield $pipe($load);
+          yield $pipe($item);
         }
       } else {
       
