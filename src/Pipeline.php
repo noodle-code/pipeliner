@@ -21,10 +21,10 @@ class Pipeline {
   private $instanceType;
 
 
-  public function __construct($loadType) {
+  public function __construct() {
     
     $this->pipes = new Pipe();
-    $this->instanceType = $loadType;
+    // $this->instanceType = $loadType;
   }
 
   
@@ -45,7 +45,7 @@ class Pipeline {
       return $this->batchAdd($pipe);
     }
 
-    $this->pipes = $this->pipes->add($pipe);
+    $this->pipes = $this->pipes->addPipe($pipe);
 
     return $this;
   }
@@ -83,12 +83,12 @@ class Pipeline {
 
     return function($load) {
       
-      if(!$load instanceof $this->instanceType) {
+      //if(!$load instanceof $this->instanceType) {
 
-        return false;
-      }
+        //return false;
+      //}
 
-      foreach($this->pipes->flow() as $result) {
+      foreach($this->pipes->flow($load) as $result) {
         
         return $result;
       }
